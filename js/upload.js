@@ -12,6 +12,9 @@ const uploadCansel = document.querySelector('.img-upload__cancel');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
 const uploadSubmit = document.querySelector('.img-upload__submit');
+const photoPreview = document.querySelector('.img-upload__preview img');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const SubmitButtonText = {
   IDLE: 'Опубликовать',
@@ -36,10 +39,22 @@ const onCancelClick = () => {
   closeModal();
 };
 
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
+};
+
 // открытие окна с формой
 uploadButton.addEventListener('change', () => {
   uploadModal.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  const file = uploadButton.files[0];
+  if (file && isValidType(file)) {
+    photoPreview.src = URL.createObjectURL(file);
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url('${photoPreview.src}')`;
+    });
+  }
   // событие закрытия по кнопке
   document.addEventListener('keydown', onDocumentKeydown);
   // событие закрытия по крестику
@@ -81,4 +96,3 @@ async function setOnFormSubmit (evt) {
     toggleSubmitButton(false);
   }
 }
-
