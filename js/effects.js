@@ -1,8 +1,8 @@
 import { effects } from './effects-settings.js';
+
 const imageForEffect = document.querySelector('.img-upload__preview img');
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectSliderContainer = document.querySelector('.img-upload__effect-level');
-const effectsThumbnailsContainer = document.querySelector('.img-upload__effects');
 const effectLevelIndicator = document.querySelector('.effect-level__value');
 let effectNow = document.querySelector('.effects__item input').value;
 
@@ -42,7 +42,7 @@ const getTumbnailValue = (evt) => {
     imageForEffect.style.filter = 'none';
   } else {
     effectSliderContainer.classList.remove('hidden');
-    effectNow = thumbnail.value;
+    effectNow = val;
     changeSlider(effects[val].step, effects[val].min, effects[val].max);
     imageForEffect.style.filter = `${effects[val].filter}(${effects[val].max}${effects[val].mesure})`;
   }
@@ -55,12 +55,10 @@ effectSlider.noUiSlider.on('update', () => {
   effectLevelIndicator.value = valueSlider;
 });
 
-effectsThumbnailsContainer.addEventListener('click', getTumbnailValue);
-
 const resetEffects = () => {
   effectSliderContainer.removeEventListener('click', getTumbnailValue);
   imageForEffect.style.filter = 'none';
   effectSliderContainer.classList.add('hidden');
 };
 
-export {resetEffects};
+export {resetEffects, getTumbnailValue};

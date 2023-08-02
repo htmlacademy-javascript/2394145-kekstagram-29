@@ -1,8 +1,7 @@
 import { renderBigPicture, setDataForPhoto } from './full-photo.js';
 import { getData } from './api.js';
-import { showAlert } from './util.js';
+import { showAlert, debounce} from './util.js';
 import { init } from './sort.js';
-import { debounce } from './util.js';
 
 const templatePicture = document.querySelector('#picture').content;
 const containerPictures = document.querySelector('.pictures');

@@ -1,7 +1,7 @@
 import { isEscapeKey } from './util.js';
 import {disableConfirmButton, pristine } from './validation.js';
 import {resetScale} from './scale.js';
-import {resetEffects} from './effects.js';
+import {resetEffects, getTumbnailValue} from './effects.js';
 import {showErrorMessage, showSuccessMessage} from './message.js';
 import {sendData} from './api.js';
 
@@ -14,6 +14,7 @@ const commentField = document.querySelector('.text__description');
 const uploadSubmit = document.querySelector('.img-upload__submit');
 const photoPreview = document.querySelector('.img-upload__preview img');
 const effectsPreviews = document.querySelectorAll('.effects__preview');
+const effectsThumbnailsContainer = document.querySelector('.img-upload__effects');
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const SubmitButtonText = {
@@ -62,6 +63,7 @@ uploadButton.addEventListener('change', () => {
   // добавить событие дисейбла кнопки
   uploadForm.addEventListener('input', disableConfirmButton);
   uploadForm.addEventListener('submit', setOnFormSubmit);
+  effectsThumbnailsContainer.addEventListener('click', getTumbnailValue);
 
 });
 
@@ -75,6 +77,8 @@ function closeModal () {
   uploadModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+  uploadForm.removeEventListener('submit', setOnFormSubmit);
+  effectsThumbnailsContainer.removeEventListener('click', getTumbnailValue);
   resetScale();
   resetEffects();
 }
