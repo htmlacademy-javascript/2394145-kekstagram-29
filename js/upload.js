@@ -1,7 +1,7 @@
 import { isEscapeKey } from './util.js';
-import {disableConfirmButton, pristine } from './validation.js';
+import {confirmButtonDisableHandler, pristine } from './validation.js';
 import {resetScale} from './scale.js';
-import {resetEffects, getTumbnailValue} from './effects.js';
+import {resetEffects, onThumbnailEffectClick} from './effects.js';
 import {showErrorMessage, showSuccessMessage} from './message.js';
 import {sendData} from './api.js';
 
@@ -61,9 +61,9 @@ uploadButton.addEventListener('change', () => {
   // событие закрытия по крестику
   uploadCansel.addEventListener('click', onCancelClick);
   // добавить событие дисейбла кнопки
-  uploadForm.addEventListener('input', disableConfirmButton);
-  uploadForm.addEventListener('submit', setOnFormSubmit);
-  effectsThumbnailsContainer.addEventListener('click', getTumbnailValue);
+  uploadForm.addEventListener('input', confirmButtonDisableHandler);
+  uploadForm.addEventListener('submit', onFormSubmitClick);
+  effectsThumbnailsContainer.addEventListener('click', onThumbnailEffectClick);
 
 });
 
@@ -73,17 +73,17 @@ function closeModal () {
   // сбросить ошибки пристин
   pristine.reset();
   // убрать событие дисейбла кнопки
-  uploadForm.removeEventListener('input', disableConfirmButton);
+  uploadForm.removeEventListener('input', confirmButtonDisableHandler);
   uploadModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  uploadForm.removeEventListener('submit', setOnFormSubmit);
-  effectsThumbnailsContainer.removeEventListener('click', getTumbnailValue);
+  uploadForm.removeEventListener('submit', onFormSubmitClick);
+  effectsThumbnailsContainer.removeEventListener('click', onThumbnailEffectClick);
   resetScale();
   resetEffects();
 }
 
-async function setOnFormSubmit (evt) {
+async function onFormSubmitClick (evt) {
   try {
     const isValid = pristine.validate();
     const data = new FormData(uploadForm);
@@ -98,5 +98,6 @@ async function setOnFormSubmit (evt) {
   } catch {
     showErrorMessage();
     toggleSubmitButton(false);
+    document.removeEventListener('keydown', onDocumentKeydown);
   }
 }

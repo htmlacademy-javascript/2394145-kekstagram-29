@@ -36,7 +36,7 @@ const onCancelClick = () => {
 };
 
 // добавление комментариев
-const addComment = () => {
+const onLoadMoreClick = () => {
   for (let i = numberOfCommentsNow; i < numberOfCommentsNow + NUMBER_OF_COMMENTS; i++){
     if (i >= commentsArray.length){
       break;
@@ -105,7 +105,7 @@ function renderBigPicture (thumbnailId) {
   commentsCreate(photoItem);
 
   // вставляем комментарии
-  addComment();
+  onLoadMoreClick();
 
   // убираем прокрутку задника
   body.classList.add('modal-open');
@@ -118,6 +118,6 @@ function renderBigPicture (thumbnailId) {
 }
 
 // событие загрузить еще
-loadMore.addEventListener('click', addComment);
+loadMore.addEventListener('click', onLoadMoreClick);
 
 export {renderBigPicture, setDataForPhoto};

@@ -7,7 +7,7 @@ const HASHTAG_TEMPLATE = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_AMOUNTH = 5;
 
-const hashtagArray = () => hashtagField.value.split(' ').filter(Boolean);
+const getHashtagArray = () => hashtagField.value.split(' ').filter(Boolean);
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -18,17 +18,17 @@ const pristine = new Pristine(uploadForm, {
 //Проверка комментария
 const validateComment = () => commentField.value.length <= MAX_COMMENT_LENGTH;
 // Проверка кол-ва хештегов
-const validateHashtagCount = () => hashtagArray().length <= MAX_HASHTAG_AMOUNTH;
+const validateHashtagCount = () => getHashtagArray().length <= MAX_HASHTAG_AMOUNTH;
 // Проверка хештега по шаблону
-const validateHashtag = () => hashtagArray().every((elem) => HASHTAG_TEMPLATE.test(elem));
+const validateHashtag = () => getHashtagArray().every((elem) => HASHTAG_TEMPLATE.test(elem));
 
 // Поиск одинаковых хештегов
 const validateHashtagSame = () => {
-  const hashtagArr = hashtagArray();
+  const hashtagArr = getHashtagArray();
   for (let i = 0; i < hashtagArr.length; i++) {
     let count = 0;
     for (let j = 0; j < hashtagArr.length; j++){
-      if (hashtagArr[i] === hashtagArr[j]) {
+      if (hashtagArr[i].toLowerCase() === hashtagArr[j].toLowerCase()) {
         count++;
       }
     }
@@ -40,7 +40,8 @@ const validateHashtagSame = () => {
 };
 
 // дизейбл кнопки про ошибках валидации
-const disableConfirmButton = () => {
+
+const confirmButtonDisableHandler = () => {
   if (!pristine.validate()) {
     submitButton.disabled = true;
   } else {
@@ -53,4 +54,4 @@ pristine.addValidator(hashtagField, validateHashtagCount, 'Слишком мно
 pristine.addValidator(hashtagField, validateHashtagSame, 'Одинаковые хештеги');
 pristine.addValidator(commentField, validateComment, 'Слишком длинный комментарий');
 
-export {disableConfirmButton, pristine};
+export {confirmButtonDisableHandler, pristine};
