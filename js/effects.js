@@ -35,7 +35,7 @@ const changeSlider = (step, min, max) => {
 
 // выполняем при нажатии на миниатюру эффекта
 const onThumbnailEffectClick = (evt) => {
-  const thumbnail = evt.target.closest('.effects__item input');
+  const thumbnail = evt.target.closest('.effects__radio');
   const val = thumbnail.value;
   if (val === 'none'){
     effectSliderContainer.classList.add('hidden');
@@ -56,7 +56,7 @@ effectSlider.noUiSlider.on('update', () => {
 });
 
 const resetEffects = () => {
-  effectSliderContainer.removeEventListener('click', onThumbnailEffectClick);
+  effectSliderContainer.removeEventListener('change', onThumbnailEffectClick);
   imageForEffect.style.filter = 'none';
   effectSliderContainer.classList.add('hidden');
 };

@@ -7,6 +7,7 @@ function onCloseButtonClick() {
   messageElement.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
   body.removeEventListener('click', onBodyClick);
+
 }
 
 function onBodyClick(evt) {

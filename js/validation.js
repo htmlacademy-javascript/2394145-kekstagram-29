@@ -41,7 +41,7 @@ const validateHashtagSame = () => {
 
 // дизейбл кнопки про ошибках валидации
 
-const confirmButtonDisableHandler = () => {
+const onFormInput = () => {
   if (!pristine.validate()) {
     submitButton.disabled = true;
   } else {
@@ -54,4 +54,4 @@ pristine.addValidator(hashtagField, validateHashtagCount, 'Слишком мно
 pristine.addValidator(hashtagField, validateHashtagSame, 'Одинаковые хештеги');
 pristine.addValidator(commentField, validateComment, 'Слишком длинный комментарий');
 
-export {confirmButtonDisableHandler, pristine};
+export {onFormInput, pristine};
