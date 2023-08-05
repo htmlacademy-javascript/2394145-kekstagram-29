@@ -50,7 +50,7 @@ const onThumbnailEffectClick = (evt) => {
 
 // меняем значения фильтра при прокрутке ползунка
 effectSlider.noUiSlider.on('update', () => {
-  const valueSlider = effectSlider.noUiSlider.get();
+  const valueSlider = (effectSlider.noUiSlider.get(true)).toFixed(2);
   imageForEffect.style.filter = `${effects[effectNow].filter}(${valueSlider}${effects[effectNow].mesure})`;
   effectLevelIndicator.value = valueSlider;
 });
